@@ -35,6 +35,20 @@ node cli/ledger-sim.mjs sign-message "hello" --approve
 node cli/ledger-sim.mjs sign-tx --approve
 ```
 
+## Real Ledger over USB
+
+The same CLI signs on a real device. Only the transport changes: Speculos is swapped for USB HID, and every `hw-app-eth` call stays the same. Nothing is auto-approved in this mode, you review and approve on the device itself.
+
+```bash
+cd cli && npm install @ledgerhq/hw-transport-node-hid && cd ..
+# plug in the Ledger, unlock it, open the Ethereum app
+node cli/ledger-sim.mjs address --usb
+node cli/ledger-sim.mjs sign-message "hello" --usb
+node cli/ledger-sim.mjs sign-tx 0xYourTestAddress 0.001 --usb
+```
+
+Run it on your own computer, it needs local USB access. Transactions are built for Sepolia and are never broadcast.
+
 ## Safety
 
 - Sepolia testnet only. The emulator uses Speculos' public default seed. Never send real funds to its address.
