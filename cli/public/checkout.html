@@ -1,0 +1,29 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SkyAgent · Checkout</title><link rel="stylesheet" href="/style.css"></head><body>
+<div class="nav"><a class="logo" href="/">Sky<span>Agent</span></a><div class="links"><span>1 Flight ✓</span><span><b>2 Payment</b></span><span>3 Confirmation</span></div></div>
+<div class="wrap">
+ <div>
+  <div id="alert"></div>
+  <div class="card"><h3>Traveler</h3><div class="grid2">
+   <div class="input"><small>Full name</small>Passenger 1</div><div class="input"><small>Seat</small>14A · Window</div>
+   <div class="input"><small>Baggage</small>1 × 23 kg included</div><div class="input"><small>Fare</small>Economy Flex</div></div></div>
+  <div class="card" style="margin-top:16px"><h3>Payment method</h3>
+   <div class="pm on"><div class="ic">LEDGER</div><div><b>Ledger signer</b><div style="font-size:13px;color:#7a869a">0.36 ETH on Sepolia · you approve on your device</div></div></div>
+   <div class="pm" style="opacity:.5"><div class="ic" style="background:#1e5bb8">CARD</div><div><b>Card</b><div style="font-size:13px;color:#7a869a">Not available for agent bookings</div></div></div>
+  </div>
+ </div>
+ <div class="card">
+  <h3>Your trip</h3>
+  <div style="font-size:14px;color:#44506a;margin-bottom:10px"><b style="color:#14213d">CDG → SIN</b> · Mon, Oct 20, 2026<br>Singapore Airlines SQ 335 · 11:20 – 06:50 (+1) · Nonstop</div>
+  <div class="row"><span>Fare</span><span>$812.00</span></div>
+  <div class="row"><span>Taxes &amp; fees</span><span>$88.00</span></div>
+  <div class="row"><span>Agent saved you</span><span style="color:#1a9e55">−$600.00</span></div>
+  <div class="row"><span>Pay in</span><span>0.36 ETH</span></div>
+  <div class="row total"><span>Total</span><span>$900.00</span></div>
+  <button class="pay" id="pay">Sign &amp; pay with Ledger</button>
+  <div style="font-size:12px;color:#7a869a;margin-top:10px;text-align:center">You'll be sent to your signer. Nothing moves until you approve there.</div>
+ </div>
+</div>
+<script>
+if(location.search.includes('rejected'))document.getElementById('alert').innerHTML='<div class="alert">You rejected the payment on your Ledger. Nothing was spent.</div>';
+document.getElementById('pay').onclick=async()=>{document.getElementById('pay').disabled=true;await fetch('/api/pay',{method:'POST'});location.href='/signer'};
+</script><script src="/chat.js"></script></body></html>
