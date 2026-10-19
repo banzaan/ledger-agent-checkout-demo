@@ -1,0 +1,18 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SkyAgent · Booked</title><link rel="stylesheet" href="/style.css"></head><body>
+<div class="nav"><a class="logo" href="/">Sky<span>Agent</span></a><div class="links"><span>1 Flight ✓</span><span>2 Payment ✓</span><span><b>3 Confirmation</b></span></div></div>
+<div class="hero" style="padding-bottom:40px"><h1>You're booked ✈</h1><p>Your agent found it. You signed it.</p></div>
+<div class="pass">
+ <div class="top"><div><b style="font-size:18px">Singapore Airlines · SQ 335</b><div style="opacity:.8;font-size:13px">Booking ref <b id="ref">—</b></div></div><div style="font-size:28px;font-weight:800">CDG → SIN</div></div>
+ <div class="body">
+  <div><small>Passenger</small><b>Passenger 1</b></div><div><small>Date</small><b>Oct 20, 2026</b></div><div><small>Seat</small><b>14A</b></div>
+  <div><small>Departs</small><b>11:20</b></div><div><small>Arrives</small><b>06:50 +1</b></div><div><small>Paid</small><b>$900.00</b></div>
+ </div>
+ <div style="padding:0 24px 24px"><small style="color:#7a869a;font-size:11px">Signed on Ledger · Sepolia transaction</small><div class="mono" id="tx">—</div><div class="mono" id="from" style="margin-top:6px"></div></div>
+</div>
+<div style="text-align:center"><a class="btn" href="/" style="display:inline-block;padding:12px 22px">Back to flights</a></div>
+<div class="foot">Demo for #LedgerOp3n2026 · AI can act. You still approve.</div>
+<script>
+fetch('/api/status').then(r=>r.json()).then(s=>{if(s.status!=='signed')return;
+document.getElementById('ref').textContent='SK'+s.hash.slice(2,8).toUpperCase();
+document.getElementById('tx').textContent='tx '+s.hash;document.getElementById('from').textContent='signer '+s.from;});
+</script></body></html>
