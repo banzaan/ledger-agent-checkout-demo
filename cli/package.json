@@ -1,7 +1,7 @@
 {
   "name": "cli",
   "version": "1.0.0",
-  "description": "",
+  "description": "Ledger signing demo: Speculos emulator or a real Ledger over USB",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,5 +13,8 @@
     "@ledgerhq/hw-app-eth": "^7.10.0",
     "@ledgerhq/hw-transport-node-speculos": "^6.34.7",
     "ethers": "^6.17.0"
+  },
+  "optionalDependencies": {
+    "@ledgerhq/hw-transport-node-hid": "^6.29.0"
   }
 }
