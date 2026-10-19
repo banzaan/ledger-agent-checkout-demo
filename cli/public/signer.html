@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ledger Signer</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% 30%,#1c1c22,#09090b 70%);color:#eee;font-family:Inter,system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px}
+.brand{font-weight:800;letter-spacing:4px;font-size:13px;color:#aaa}.brand b{color:#ff5300}
+.req{margin:18px 0 8px;background:#151519;border:1px solid #2a2a31;border-radius:14px;padding:12px 18px;font-size:14px;text-align:center;max-width:460px}
+.req small{color:#888;display:block;margin-top:4px}
+.nano{position:relative;margin-top:24px;background:linear-gradient(#2a2a30,#17171b);border-radius:40px;padding:34px 46px;box-shadow:0 30px 60px #000a,inset 0 1px 0 #ffffff14}
+.nano img{width:512px;max-width:78vw;image-rendering:pixelated;background:#000;border-radius:8px;display:block;border:3px solid #050505}
+.hw{position:absolute;top:-14px;width:70px;height:16px;background:#3a3a42;border-radius:8px 8px 0 0;cursor:pointer;border:0}
+.hw:active{background:#ff5300}.hw.l{left:70px}.hw.r{right:70px}
+.btns{display:flex;gap:12px;margin-top:26px}
+.btns button{background:#1f1f25;color:#eee;border:1px solid #393942;border-radius:12px;padding:12px 20px;cursor:pointer;font-size:15px}
+.btns button.both{border-color:#ff5300}
+.hint{color:#777;font-size:12px;margin-top:10px}
+.status{margin-top:20px;font-size:15px;min-height:22px;text-align:center}.ok{color:#3ddc84}.bad{color:#ff5a5a}
+</style></head><body>
+<div class="brand">LEDGER <b>SIGNER</b></div>
+<div class="req">Payment request from <b>SkyAgent</b> · $900.00<small>Requested by your AI agent · review every screen before you sign</small></div>
+<div class="nano"><button class="hw l" onclick="press('left')" title="left"></button><button class="hw r" onclick="press('right')" title="right"></button><img id="screen" src="/api/screen" alt="device screen"></div>
+<div class="btns"><button onclick="press('left')">◀ Left</button><button class="both" onclick="press('both')">● Both</button><button onclick="press('right')">Right ▶</button></div>
+<div class="hint">Keyboard: ← → and Space for both buttons</div>
+<div class="status" id="status">Connecting…</div>
+<script>
+const $=id=>document.getElementById(id);
+async function press(b){await fetch('/api/button/'+b,{method:'POST'});refresh()}
+function refresh(){const i=new Image();i.onload=()=>$('screen').src=i.src;i.src='/api/screen?t='+Date.now()}
+setInterval(refresh,450);
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')press('left');if(e.key==='ArrowRight')press('right');if(e.key===' '){e.preventDefault();press('both')}});
+async function poll(){
+ const s=await (await fetch('/api/status')).json();
+ if(s.status==='waiting'){$('status').textContent='Review the transaction with ▶, then press Both on Sign or Reject';return setTimeout(poll,600)}
+ if(s.status==='signed'){$('status').innerHTML='<span class="ok">✔ Signed on your device. Returning to SkyAgent…</span>';return setTimeout(()=>location.href='/confirmation',2200)}
+ if(s.status==='rejected'){$('status').innerHTML='<span class="bad">✖ Rejected. Returning to SkyAgent…</span>';return setTimeout(()=>location.href='/checkout?rejected=1',2200)}
+ if(s.status==='error'){$('status').innerHTML='<span class="bad">Error: '+s.error+'</span>';return}
+ $('status').textContent='No pending request.';
+}
+poll();
+</script></body></html>
