@@ -1,0 +1,17 @@
+{
+  "name": "cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ledgerhq/hw-app-eth": "^7.10.0",
+    "@ledgerhq/hw-transport-node-speculos": "^6.34.7",
+    "ethers": "^6.17.0"
+  }
+}
